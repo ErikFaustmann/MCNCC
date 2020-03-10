@@ -1,6 +1,6 @@
 # MCNCC
 
-Shoeprint matching algorithm using mutliple feature channels from a pretrained neural network (googlenet) and normalized cross correlation
+Shoeprint matching algorithm using multiple feature channels from a pretrained neural network (googlenet) and normalized cross correlation
 
 Steps:
 
