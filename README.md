@@ -4,5 +4,4 @@ Shoeprint matching algorithm using multiple feature channels from a pretrained n
 
 Steps:
 
-- download the FID-300 dataset and create a new project folder containing the python file and the dataset
-- in the python file: rewrite the existing paths to your current patch hierachy
+- download the FID-300 dataset and create a new project folder containing the python file and the "datasets" folder
