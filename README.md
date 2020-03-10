@@ -5,3 +5,4 @@ Shoeprint matching algorithm using multiple feature channels from a pretrained n
 Steps:
 
 - download the FID-300 dataset and create a new project folder containing the python file and the "datasets" folder
+- use the cmc function in order to create cmc-plots from your score-files
