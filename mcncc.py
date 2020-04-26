@@ -230,11 +230,9 @@ class NCC(torch.nn.Module):
         return result
         
 score_mat = np.zeros((len(np.sort(track_l)), (len(np.sort(ref_l)))), dtype='float64')
-x=0
 
-for t in tqdm(np.sort(track_l)):
-    y=0
-    for r in np.sort(ref_l):
+for x, t in enumerate(tqdm(np.sort(track_l))):
+    for y, r in enumerate(np.sort(ref_l)):
         image = Image.open(path.join(refs, r))
         template = Image.open(path.join(tracks,t))
         with torch.no_grad():
@@ -251,8 +249,5 @@ for t in tqdm(np.sort(track_l)):
 
                 if mcncc > score_mat[x][y]: 
                     score_mat[x][y] = mcncc
-                
-        y=+1
-    x=+1
     
 np.save('roger_tracks_complete.npy', score_mat)
