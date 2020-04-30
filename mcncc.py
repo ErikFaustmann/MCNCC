@@ -11,6 +11,7 @@ from os import path
 from torch.autograd import Variable
 import torchvision
 from torchvision import transforms
+from torchvision.transforms import functional as F
 import torchvision.models as models
 from torch import nn
 from os import path
@@ -41,37 +42,6 @@ trans = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
 ])
-    
-from torchvision.transforms import functional as F
-
-
-def norm(t):
-    m = t.mean(dim=(2,3))[..., np.newaxis, np.newaxis].repeat((1, 1, t.shape[2], t.shape[3]))
-    std = t.std(dim=(2,3))[..., np.newaxis, np.newaxis].repeat((1, 1, t.shape[2], t.shape[3]))
-
-    t = ((t-m)/(std+1e-10))
-#     t = ((t-m)/torch.sqrt(std+1e-10)) # this was wrong
-    
-    return t
-
-def auto_pad(image, template):
-    mean = int(ImageStat.Stat(image).mean[0]/2)
-#     mean = 255
-    padding = 10
-    if template.size[0] > image.size[0] or template.size[1] > image.size[1]:
-        
-        newImage = Image.new("L", (max(template.size[0], image.size[0])+padding*2, 
-                                    max(template.size[1], image.size[1])+padding*2), 
-                             (mean))
-        newImage.paste(image, (max(template.size[0]-image.size[0],0)//2, 
-                               max(template.size[1]-image.size[1],0)//2))
-        image = newImage
-    else: 
-        image = ImageOps.expand(image, padding, fill=mean)
-        
-    return image, template
-
-
     
 """    
 Normalized Cross-Correlation for pattern matching.
