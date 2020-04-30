@@ -13,7 +13,7 @@ Steps:
      
 - (optionally) in the datasets folder create two additonal folders with subsets, if you don't want to run through the whole dataset (depending on your gpu, this can take a long time). For example the first 50 track images and the corresponding reference images (The right labels are in the FID-300 dataset).
 - depending on your folderstructure, change the lines 22, 24, 25 in mcncc.py accordingly
-- install all the necessary packages: matplotlib, numpy, torch,..
+- create a virtual environment for this project and install all the necessary packages: matplotlib, numpy, torch,..
 - after running the program, a .npy file is created storing the correlation matrix
 
 - use the cmc function in order to create cmc-plots from your correlation score-files
