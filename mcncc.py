@@ -1,8 +1,11 @@
+%%time
+
+import os
 import matplotlib
 matplotlib.use('Agg')
 from PIL import Image
 import torch
-import os
+from torch.nn import functional as F
 from torch.nn.functional import conv2d
 import numpy as np
 from torchvision.transforms import ToTensor
@@ -21,8 +24,8 @@ from tempfile import TemporaryFile
 
 folder = path.expanduser('datasets/FID-300')
 
-tracks = path.join(folder,'tracks_cropped')
-refs = path.join(folder,'references')
+tracks = path.join(folder,'tracks_cropped_Subset')
+refs = path.join(folder,'Subset')
 PCA_refs = path.join(folder,'PCA_reference_Subset')
 
 ref_l = [f for f in os.listdir(refs) if f.endswith('.png')]
@@ -42,11 +45,10 @@ trans = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
 ])
-    
+
 """    
 Normalized Cross-Correlation for pattern matching.
 pytorch implementation
-
 roger.bermudez@epfl.ch
 CVLab EPFL 2019
 """
@@ -62,14 +64,11 @@ ncc_logger = logging.getLogger(__name__)
 def patch_mean(images, patch_shape):
     """
     Computes the local mean of an image or set of images.
-
     Args:
         images (Tensor): Expected size is (n_images, n_channels, *image_size). 1d, 2d, and 3d images are accepted.
         patch_shape (tuple): shape of the patch tensor (n_channels, *patch_size)
-
     Returns:
         Tensor same size as the image, with local means computed independently for each channel.
-
     Example::
         >>> images = torch.randn(4, 3, 15, 15)           # 4 images, 3 channels, 15x15 pixels each
         >>> patch_shape = 3, 5, 5                        # 3 channels, 5x5 pixels neighborhood
@@ -105,14 +104,11 @@ def patch_mean(images, patch_shape):
 def patch_std(image, patch_shape):
     """
     Computes the local standard deviations of an image or set of images.
-
     Args:
         images (Tensor): Expected size is (n_images, n_channels, *image_size). 1d, 2d, and 3d images are accepted.
         patch_shape (tuple): shape of the patch tensor (n_channels, *patch_size)
-
     Returns:
         Tensor same size as the image, with local standard deviations computed independently for each channel.
-
     Example::
         >>> images = torch.randn(4, 3, 15, 15)           # 4 images, 3 channels, 15x15 pixels each
         >>> patch_shape = 3, 5, 5                        # 3 channels, 5x5 pixels neighborhood
@@ -141,7 +137,6 @@ def channel_normalize(template):
 class NCC(torch.nn.Module):
     """
     Computes the [Zero-Normalized Cross-Correlation][1] between an image and a template.
-
     Example:
         >>> lena_path = "https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"
         >>> lena_tensor = torch.Tensor(plt.imread(lena_path)).permute(2, 0, 1).cuda()
@@ -155,7 +150,6 @@ class NCC(torch.nn.Module):
         tensor(1.0000, device='cuda:0')
         >>> np.unravel_index(ncc_response.argmax(), lena_tensor.shape)
         (0, 275, 275)
-
     [1]: https://en.wikipedia.org/wiki/Cross-correlation#Zero-normalized_cross-correlation_(ZNCC)
     """
     def __init__(self, template, keep_channels=False):
@@ -198,6 +192,7 @@ class NCC(torch.nn.Module):
         result[result != result] = result.min()
 
         return result
+
         
 score_mat = np.zeros((len(np.sort(track_l)), (len(np.sort(ref_l)))), dtype='float64')
 
@@ -205,19 +200,15 @@ for x, t in enumerate(tqdm(np.sort(track_l))):
     for y, r in enumerate(np.sort(ref_l)):
         image = Image.open(path.join(refs, r))
         template = Image.open(path.join(tracks,t))
-        with torch.no_grad():
-            for i in range(-10, 10):
-                template_t = model(trans(template.rotate(i, expand = 1, fillcolor='white')).unsqueeze(0).to(device))[0]
-                image_t = model(trans(image).unsqueeze(0).to(device))
+        
+        template_t = model(trans(template).unsqueeze(0).to(device))[0]
+        image_t = model(trans(image).unsqueeze(0).to(device))
 
-                template_t2 = template_t[:, 3:template_t.shape[1]-3, 3:template_t.shape[2]-3]
-                image_t2 = image_t[:,:,3:image_t.shape[2]-3, 3:image_t.shape[3]-3]
+        template_t2 = template_t[:, 3:template_t.shape[1]-3, 3:template_t.shape[2]-3].to(device)
+        image_t2 = image_t[:,:,3:image_t.shape[2]-3, 3:image_t.shape[3]-3].to(device)
 
-                ncc = NCC(template_t2)
-                ncc_response = ncc(image_t2)
-                mcncc = np.amax(ncc_response.cpu().data.numpy())
-
-                if mcncc > score_mat[x][y]: 
-                    score_mat[x][y] = mcncc
+        ncc = NCC(template_t2)
+        ncc_response = ncc(image_t2)
+        score_mat[x][y] = np.amax(ncc_response.cpu().data.numpy())
     
-np.save('roger_tracks_complete.npy', score_mat)
+np.save('scores.npy', score_mat)
