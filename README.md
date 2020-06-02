@@ -17,7 +17,7 @@ Link to the FID-300 dataset: https://fid.dmi.unibas.ch/
 - create a virtual environment for this project and install all the necessary packages:
 What you need to istall: torch (go to https://pytorch.org/ and follow the guide), tqdm, matplotlib
 
-- run the program with the string arguments for the tracks folder and the references folder for example: python3 MCNCC.py tracks_cropped references
+- run the program with the string arguments for the tracks folder and the references folder for example: python3 mcncc.py tracks_cropped references
 
 - after running the program, a .npy file is created storing the correlation matrix (rows: number of tracks in the chosen track folder, columns: number of reference images in the chosen reference image folder)
 
