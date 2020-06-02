@@ -1,36 +1,41 @@
-%%time
-
 import os
+from os import path
 import matplotlib
 matplotlib.use('Agg')
 from PIL import Image
+
+import pickle
+import numpy as np
+from tempfile import TemporaryFile
+from tqdm import tqdm
+import argparse
+
 import torch
 from torch.nn import functional as F
 from torch.nn.functional import conv2d
-import numpy as np
 from torchvision.transforms import ToTensor
-from tqdm import tqdm
-from os import path
 from torch.autograd import Variable
 import torchvision
 from torchvision import transforms
 from torchvision.transforms import functional as F
 import torchvision.models as models
 from torch import nn
-from os import path
-import pickle
-from os import path
-from tempfile import TemporaryFile
 
 folder = path.expanduser('datasets/FID-300')
+parser = argparse.ArgumentParser(description='take some indiviudal folders from user')
+parser.add_argument('tracks', type = str, help='track folder')
+parser.add_argument('refs', type=str, help='refs folder')
+args = parser.parse_args()
 
-tracks = path.join(folder,'tracks_cropped_Subset')
-refs = path.join(folder,'Subset')
-PCA_refs = path.join(folder,'PCA_reference_Subset')
+tracks = path.join(folder, args.tracks)
+refs = path.join(folder, args.refs)
 
 ref_l = [f for f in os.listdir(refs) if f.endswith('.png')]
 track_l = [f for f in os.listdir(tracks) if f.endswith('.jpg')]
-PCA_ref_l = [f for f in os.listdir(PCA_refs) if f.endswith('.png')]
+
+if __name__ == "__main__":
+    print(refs)
+    print(tracks)
 
 device = torch.device('cuda:0')
 
@@ -193,7 +198,6 @@ class NCC(torch.nn.Module):
 
         return result
 
-        
 score_mat = np.zeros((len(np.sort(track_l)), (len(np.sort(ref_l)))), dtype='float64')
 
 for x, t in enumerate(tqdm(np.sort(track_l))):
