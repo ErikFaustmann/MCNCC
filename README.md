@@ -21,7 +21,8 @@ What you need to istall:
      + matplotlib
 
 - run the program with the string arguments for the tracks folder and the references folder for example: 
-<addr>python3 mcncc.py tracks_cropped references
+
+     <addr>python3 mcncc.py tracks_cropped references
 
 - after running the program, a .npy file is created storing the correlation matrix (rows: number of tracks in the chosen track folder, columns: number of reference images in the chosen reference image folder)
 
