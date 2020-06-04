@@ -11,7 +11,7 @@ Link to the FID-300 dataset: https://fid.dmi.unibas.ch/
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
      
-- (optionally) in the datasets folder create two additonal folders with subsets or download the Subsets from this repository (tracks_cropped_Subset and Subset in datasets/FID-300), if you don't want to run through the whole dataset (depending on your gpu, this can take a long time). For example the first 50 track images and the corresponding reference images.
+- (optionally) If you don't want to run through the whole dataset (depending on your gpu, this can take a long time), you can create two additonal folders with subsets or download the subsets from this repository (*tracks_cropped_Subset* and *Subset* in datasets/FID-300) in the datasets/FID-300 folder. For example the first 50 track images and the corresponding reference images.
 
 - create a virtual environment for this project and install all the necessary packages.
 What you need to istall: 
