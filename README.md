@@ -11,7 +11,7 @@ Link to the FID-300 dataset: https://fid.dmi.unibas.ch/
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
      
-- (optionally) in the datasets folder create two additonal folders with subsets, if you don't want to run through the whole dataset (depending on your gpu, this can take a long time). For example the first 50 track images and the corresponding reference images (An example for a Subset can be found in the excel file in the repository).
+- (optionally) in the datasets folder create two additonal folders with subsets or download the Subsets from this repository, if you don't want to run through the whole dataset (depending on your gpu, this can take a long time). For example the first 50 track images and the corresponding reference images.
 
 - create a virtual environment for this project and install all the necessary packages.
 What you need to istall: 
@@ -27,5 +27,8 @@ What you need to istall:
 - after running the program, a .npy file is created storing the correlation matrix (rows: number of tracks in the chosen track folder, columns: number of reference images in the chosen reference image folder)
 
 - use the cmc function in order to create cmc-plots from your correlation score-files
+
+- Google colab link:
+https://drive.google.com/drive/folders/13txeoZfnQ6rAHktlV3-q9x69nJ-rg8qt?usp=sharing
 
 
