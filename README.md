@@ -27,6 +27,9 @@ What you need to istall:
 - after running the program, a .npy file is created storing the correlation matrix (rows: number of tracks in the chosen track folder, columns: number of reference images in the chosen reference image folder)
 
 - use the cmc function in order to create cmc-plots from your correlation score-files
+```
+     cmc_scores = cmc(correlation_matrix)
+```
 
 - Google colab link:
 https://drive.google.com/drive/folders/13txeoZfnQ6rAHktlV3-q9x69nJ-rg8qt?usp=sharing
