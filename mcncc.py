@@ -8,6 +8,7 @@ from tempfile import TemporaryFile
 from tqdm import tqdm
 import argparse
 import logging
+import time
 
 import torch
 from torch.nn import functional as F
@@ -26,6 +27,8 @@ parser = argparse.ArgumentParser(description='take some indiviudal folders from 
 parser.add_argument('-t', '--tracks', type = str, default='tracks_cropped_Subset', help='define track folder')
 parser.add_argument('-rf', '--refs', type=str, default='Subset', help='define reference folder')
 parser.add_argument('-r', '--rot', default=False, action='store_true', help='add rotation')
+parser.add_argument('-ris', '--start', type=int, default=-10, help='rotation interval start')
+parser.add_argument('-rie', '--end', type=int, default=11, help='rotation interval end')
 parser.add_argument('-sf', '--scorefile', type=str, default='scores.npy', help='scorefilename')
 parser.add_argument('-cmc', '--cmc', default=False, action='store_true', help='calculate cmc')
 parser.add_argument('-cmcf', '--cmc_file', type=str, default='cmc_file',help='cmc filename')
@@ -45,7 +48,9 @@ if __name__ == "__main__":
     print("cmc:", args.cmc)
     print("scorefile:", args.scorefile)
     print("cmc_file:", args.cmc_file)
-    print(type(args.cmc_file))
+    print("start:", args.start)
+    print("end:", args.end)
+
 
 device = torch.device('cuda:0')
 
@@ -190,6 +195,8 @@ class NCC(torch.nn.Module):
 
 score_mat = np.zeros((len(np.sort(track_l)), (len(np.sort(ref_l)))), dtype='float64')
 
+calc_time = time.time()
+
 if args.rot == False:
 
     for x, t in enumerate(tqdm(np.sort(track_l))):
@@ -219,11 +226,11 @@ else:
         for y, r in enumerate(np.sort(ref_l)):
             
             img = Image.open(path.join(refs, r))
-            for i in range(-5, 6):
-                if i == -5:
+            for i in range(args.start, args.end):
+                if i == args.start:
                     img2 = img.rotate(i, expand=1, fillcolor='white')
                     img2 = trans(img2).unsqueeze(0)
-                    img_batch = torch.zeros(11, 3, img2.shape[2], img2.shape[3])
+                    img_batch = torch.zeros(abs(args.start-args.end), 3, img2.shape[2], img2.shape[3])
                 else:
                     img2 = img.rotate(i)
                     img2 = trans(img2).unsqueeze(0)
@@ -236,12 +243,14 @@ else:
             
             cc = 0
 
-            for i in range(10):
+            for i in range(abs(args.start-args.end)-1):
                 if cc < torch.max(ncc_response[i]).item():
                     cc = torch.max(ncc_response[i]).item()
                     
             score_mat[x][y] = cc
     
+elapsed = time.time() - calc_time
+print("elapsed time:", elapsed)
 np.save(args.scorefile, score_mat)
 
 if args.cmc == True:
@@ -249,10 +258,10 @@ if args.cmc == True:
     cmc_score = compute_cmc(score_mat)
 
     f, ax = plt.subplots(1)
-    x_data = np.arange(-10, 11)
+    x_data = np.arange(args.start, args.end)
     plt.plot(x_data, cmc_score.detach().numpy())
     plt.gca().legend(('img_rotation','img_rotation'))
-    plt.suptitle('Track: 1 Reference: 1044')
+    plt.suptitle('CMC')
     plt.xlabel('Angle [deg]')
     plt.ylabel('Correleation')
     ax.set_ylim(bottom=0)
