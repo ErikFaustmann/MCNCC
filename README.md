@@ -30,7 +30,7 @@ What you need to istall:
 ```
      cmc_scores = cmc(correlation_matrix)
 ```
-This function creates a for example following image:
+This function creates for example following graph:
 
 <img src="Comparison.png"
      alt="Markdown Monster icon"
