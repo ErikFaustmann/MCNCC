@@ -31,7 +31,8 @@ What you need to istall:
      cmc_scores = cmc(correlation_matrix)
 ```
 This function creates a for example following image:
-<img src="comparison.png"
+
+<img src="Comparison.png"
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
 
