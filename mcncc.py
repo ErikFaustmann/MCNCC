@@ -9,6 +9,7 @@ from tqdm import tqdm
 import argparse
 import logging
 import time
+import pandas
 
 import torch
 from torch.nn import functional as F
@@ -21,16 +22,18 @@ from torchvision import transforms
 import torchvision.models as models
 from torch import nn
 
-folder = path.expanduser('datasets/FID-300')
+folder = '/content/drive/My Drive/MCNCC/datasets/FID-300'
 
 parser = argparse.ArgumentParser(description='take some indiviudal folders from user')
 parser.add_argument('-t', '--tracks', type = str, default='tracks_cropped_Subset', help='define track folder')
 parser.add_argument('-rf', '--refs', type=str, default='Subset', help='define reference folder')
+parser.add_argument('-str', '--stride', type = int, default='1', help='stride for convolutions')
 parser.add_argument('-r', '--rot', default=False, action='store_true', help='add rotation')
 parser.add_argument('-ris', '--start', type=int, default=-10, help='rotation interval start')
 parser.add_argument('-rie', '--end', type=int, default=11, help='rotation interval end')
 parser.add_argument('-sf', '--scorefile', type=str, default='scores.npy', help='scorefilename')
 parser.add_argument('-cmc', '--cmc', default=False, action='store_true', help='calculate cmc')
+parser.add_argument('-lbl', '--label_table', type=str, default='datasets/FID-300/label_table.csv', help='add csv files for labels')
 parser.add_argument('-cmcf', '--cmc_file', type=str, default='cmc_file',help='cmc filename')
 
 args = parser.parse_args()
@@ -44,12 +47,14 @@ track_l = [f for f in os.listdir(tracks) if f.endswith('.jpg')]
 if __name__ == "__main__":
     print("refs:", args.refs)
     print("tracks:", args.tracks)
+    print("stride:", args.stride)
     print("rot:", args.rot)
     print("cmc:", args.cmc)
     print("scorefile:", args.scorefile)
     print("cmc_file:", args.cmc_file)
     print("start:", args.start)
     print("end:", args.end)
+    print("label_table:", args.lable_table)
 
 
 device = torch.device('cuda:0')
@@ -68,10 +73,13 @@ trans = transforms.Compose([
 
 ncc_logger = logging.getLogger(__name__)
 
+#test_labels = [26, 8, 28, 37, 23, 5, 17, 27, 1, 15, 15, 8, 8, 30, 35, 6, 1, 32, 22, 1, 1, 19, 13, 20, 1, 7, 21, 36, 3, 12, 33, 9, 34, 38, 12, 11, 10, 14, 16, 29, 4, 24, 4, 2, 33, 3, 18, 31, 25, 25]
+
+test_labels = pd.read_csv(args.lable_table, header=None)
+test_labels[:][1].values.tolist()
+
 def compute_cmc(score_mat):
     
-    test_labels = [26, 8, 28, 37, 23, 5, 17, 27, 1, 15, 15, 8, 8, 30, 35, 6, 1, 32, 22, 1, 1, 19, 13, 20, 1, 7, 21, 36, 3, 12, 33, 9, 34, 38, 12, 11, 10, 14, 16, 29, 4, 24, 4, 2, 33, 3, 18, 31, 25, 25]
-
     true_mat = np.zeros((50, 38))
 
     for i in range(len(test_labels)):
@@ -138,7 +146,7 @@ def patch_mean(images, patch_shape):
     channel_selector = torch.eye(channels).bool()
     weights[~channel_selector] = 0
 
-    result = conv(images, weights, padding=padding, bias=None)
+    result = conv(images, weights, stride=1, padding=padding, bias=None)
     return result
 
 
@@ -179,7 +187,7 @@ class NCC(torch.nn.Module):
         self.normalized_template.div_(patch_elements)
 
     def forward(self, image):
-        result = self.conv_f(image, self.normalized_template, padding=self.padding, bias=None)
+        result = self.conv_f(image, self.normalized_template, stride = args.stride, padding=self.padding, bias=None)
         
         std = patch_std(image, self.normalized_template.shape[1:])
     
