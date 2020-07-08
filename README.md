@@ -20,16 +20,34 @@ What you need to istall:
      + tqdm 
      + matplotlib
 
-- run the program with the string arguments for the tracks folder and the references folder for example: 
+- run the program with the following arguments: 
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TRACKS, --tracks TRACKS
+                        define track folder
+  -rf REFS, --refs REFS
+                        define reference folder
+  -str STRIDE, --stride STRIDE
+                        stride for convolutions
+  -r, --rot             add rotation
+  -ris START, --start START
+                        rotation interval start
+  -rie END, --end END   rotation interval end
+  -sf SCOREFILE, --scorefile SCOREFILE
+                        scorefilename
+  -cmc, --cmc           calculate cmc
+  -cmcf CMC_FILE, --cmc_file CMC_FILE
+                        cmc filename
+                        
+for example
 ```
-     python3 mcncc.py tracks_cropped references
+     python3 mcncc.py -t tracks_cropped -rf references
 ```
 - after running the program, a .npy file is created storing the correlation matrix (rows: number of tracks in the chosen track folder, columns: number of reference images in the chosen reference image folder)
 
-- use the cmc function in order to create cmc-plots from your correlation score-files
-```
-     cmc_scores = cmc(correlation_matrix)
-```
+- use the cmc argument in order to create cmc-plots from your correlation score-files
+
 This function creates for example following graph:
 
 <img src="Comparison.png"
