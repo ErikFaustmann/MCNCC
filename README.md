@@ -54,8 +54,16 @@ for example
 - use the cmc argument in order to create cmc-plots from your correlation score-files
 
 This function creates for example following graphs:
-
+```
+     python drive/My\ Drive/MCNCC/mcncc.py -cmc 
+```
 <img src="cmc_score_diagram.png"
+     alt="Markdown Monster icon"
+     style="float: left; margin-right: 10px;" />    
+```
+     python drive/My\ Drive/MCNCC/mcncc.py -str 4 -cmc
+```
+<img src="cmc_score_diagram2.png"
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
 
