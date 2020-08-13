@@ -66,10 +66,6 @@ This function creates for example following graphs:
 <img src="cmc_score_diagram2.png"
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
-
-<img src="Comparison.png"
-     alt="Markdown Monster icon"
-     style="float: left; margin-right: 10px;" />
      
 - If you don't have access to a GPU you can also use google collaboratory through this link in order to test out the algorithm:
 https://drive.google.com/drive/folders/13txeoZfnQ6rAHktlV3-q9x69nJ-rg8qt?usp=sharing
