@@ -24,22 +24,26 @@ What you need to istall:
 - run the program with the following arguments: 
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -t TRACKS, --tracks TRACKS
-                        define track folder
-  -rf REFS, --refs REFS
-                        define reference folder
-  -str STRIDE, --stride STRIDE
-                        stride for convolutions
-  -r, --rot             add rotation
-  -ris START, --start START
-                        rotation interval start
-  -rie END, --end END   rotation interval end
-  -sf SCOREFILE, --scorefile SCOREFILE
-                        scorefilename
-  -cmc, --cmc           calculate cmc
-  -cmcf CMC_FILE, --cmc_file CMC_FILE
-                        cmc filename
+
+  -h, --help   (show this help message and exit)
+  
+  -t TRACKS, --tracks TRACKS  (define track folder)
+  
+  -rf REFS, --refs REFS  (define reference folder)
+  
+  -str STRIDE, --stride STRIDE     (stride for convolutions)
+                        
+  -r, --rot    (add rotation)
+  
+  -ris START, --start START   (rotation interval start)
+                        
+  -rie END, --end END   (rotation interval end)
+  
+  -sf SCOREFILE, --scorefile SCOREFILE  (scorefilename)
+  
+  -cmc, --cmc  (calculate cmc)
+  
+  -cmcf CMC_FILE, --cmc_file CMC_FILE   (cmc filename)
                         
 for example
 ```
