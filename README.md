@@ -25,7 +25,7 @@ What you need to istall:
 
 optional arguments:
 
-  -h, --help   (show this help message and exit)
+  -h, --help  *(show this help message and exit)*
   
   -t TRACKS, --tracks TRACKS  (define track folder)
   
