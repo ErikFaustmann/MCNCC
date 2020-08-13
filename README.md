@@ -19,6 +19,7 @@ What you need to istall:
      + torch (go to https://pytorch.org/ and follow the guide)
      + tqdm 
      + matplotlib
+     + pandas
 
 - run the program with the following arguments: 
 
@@ -48,9 +49,13 @@ for example
 
 - use the cmc argument in order to create cmc-plots from your correlation score-files
 
-This function creates for example following graph:
+This function creates for example following graphs:
 
 <img src="Comparison.png"
+     alt="Markdown Monster icon"
+     style="float: left; margin-right: 10px;" />
+     
+<img src="cmc_score_diagram.png"
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
 
