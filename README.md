@@ -27,23 +27,23 @@ optional arguments:
 
   -h, --help  *(show this help message and exit)*
   
-  -t TRACKS, --tracks TRACKS  (define track folder)
+  -t TRACKS, --tracks TRACKS  *(define track folder)*
   
-  -rf REFS, --refs REFS  (define reference folder)
+  -rf REFS, --refs REFS  *(define reference folder)*
   
-  -str STRIDE, --stride STRIDE     (stride for convolutions)
+  -str STRIDE, --stride STRIDE     *(stride for convolutions)*
                         
-  -r, --rot    (add rotation)
+  -r, --rot    *(add rotation)*
   
-  -ris START, --start START   (rotation interval start)
+  -ris START, --start START   *(rotation interval start)*
                         
-  -rie END, --end END   (rotation interval end)
+  -rie END, --end END   *(rotation interval end)*
   
-  -sf SCOREFILE, --scorefile SCOREFILE  (scorefilename)
+  -sf SCOREFILE, --scorefile SCOREFILE  *(scorefilename)*
   
-  -cmc, --cmc  (calculate cmc)
+  -cmc, --cmc  *(calculate cmc)*
   
-  -cmcf CMC_FILE, --cmc_file CMC_FILE   (cmc filename)
+  -cmcf CMC_FILE, --cmc_file CMC_FILE   *(cmc filename)*
                         
 for example
 ```
