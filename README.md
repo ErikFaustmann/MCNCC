@@ -14,7 +14,7 @@ Link to the FID-300 dataset: https://fid.dmi.unibas.ch/
 - (optionally) If you don't want to run through the whole dataset (depending on your gpu, this can take a long time), you can create two additonal folders with subsets or download the subsets from this repository (*tracks_cropped_Subset* and *Subset* in datasets/FID-300) in the datasets/FID-300 folder. For example the first 50 track images and the corresponding reference images.
 
 - create a virtual environment for this project and install all the necessary packages.
-What you need to istall: 
+What you need to install: 
 
      + torch (go to https://pytorch.org/ and follow the guide)
      + tqdm 
