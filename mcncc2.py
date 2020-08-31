@@ -29,6 +29,7 @@ parser = argparse.ArgumentParser(description='take some indiviudal folders from 
 parser.add_argument('-t', '--tracks', type = str, default='tracks_cropped_Subset', help='define track folder')
 parser.add_argument('-rf', '--refs', type=str, default='Subset', help='define reference folder')
 parser.add_argument('-str', '--stride', type = int, default='1', help='stride for convolutions')
+parser.add_argument('-avgp', '--avgpool_bool', default='False', help='activate average pooling for features')
 parser.add_argument('-r', '--rot', default=False, action='store_true', help='add rotation')
 parser.add_argument('-ris', '--start', type=int, default=-10, help='rotation interval start')
 parser.add_argument('-rie', '--end', type=int, default=11, help='rotation interval end')
@@ -56,13 +57,17 @@ if __name__ == "__main__":
     print("scorefile:", args.scorefile)
     print("cmc_file:", args.cmc_file)
     print("label_file:", args.label_file)
-
+    print("average_pooling:", args.avgpool_bool)
 
 
 device = torch.device('cuda:0')
 
 googlenet = models.googlenet(pretrained=True)
 model = nn.Sequential(*list(googlenet.children())[0:4])
+
+if args.avgpool_bool == True:
+    model = nn.Sequential(model, nn.AvgPool2d(2, stride=1))
+    
 model.to(device)
 model.eval()
     
