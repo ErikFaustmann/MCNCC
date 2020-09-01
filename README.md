@@ -67,6 +67,13 @@ This function creates for example following graphs:
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
      
+```
+     python drive/My\ Drive/MCNCC/mcncc.py -cmc -avgp
+```
+<img src="cmc_score_average_pool.png"
+     alt="Markdown Monster icon"
+     style="float: left; margin-right: 10px;" />
+     
 - If you don't have access to a GPU you can also use google collaboratory through this link in order to test out the algorithm:
 https://drive.google.com/drive/folders/13txeoZfnQ6rAHktlV3-q9x69nJ-rg8qt?usp=sharing
 
