@@ -54,7 +54,7 @@ if __name__ == "__main__":
     print("cmc_file:", args.cmc_file)
     print("start:", args.start)
     print("end:", args.end)
-    print("label_table:", args.lable_table)
+    print("label_table:", args.label_table)
 
 
 device = torch.device('cuda:0')
@@ -75,7 +75,7 @@ ncc_logger = logging.getLogger(__name__)
 
 #test_labels = [26, 8, 28, 37, 23, 5, 17, 27, 1, 15, 15, 8, 8, 30, 35, 6, 1, 32, 22, 1, 1, 19, 13, 20, 1, 7, 21, 36, 3, 12, 33, 9, 34, 38, 12, 11, 10, 14, 16, 29, 4, 24, 4, 2, 33, 3, 18, 31, 25, 25]
 
-test_labels = pd.read_csv(args.lable_table, header=None)
+test_labels = pd.read_csv(args.label_table, header=None)
 test_labels[:][1].values.tolist()
 
 def compute_cmc(score_mat):
